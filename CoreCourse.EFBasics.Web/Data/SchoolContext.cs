@@ -16,5 +16,53 @@ namespace CoreCourse.EFBasics.Web.Data
 
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<StudentInfo> StudentInfo { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<StudentCourse>()
+                .ToTable("StudentCourses")
+                .HasKey(sc => new { sc.StudentId, sc.CourseId });
+
+            modelBuilder.Entity<StudentCourse>()
+                .HasOne(sc => sc.Student)
+                .WithMany(s => s.StudentCourses)
+                .HasForeignKey(sc => sc.StudentId);
+
+            modelBuilder.Entity<StudentCourse>()
+                .HasOne(sc => sc.Course)
+                .WithMany(s => s.StudentCourses)
+                .HasForeignKey(sc => sc.CourseId);
+
+            modelBuilder.Entity<StudentInfo>()
+                .HasKey(si => si.Id);
+
+            modelBuilder.Entity<StudentInfo>()
+                .Property(si => si.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<StudentInfo>()
+                .Property(si => si.Email)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            modelBuilder.Entity<StudentInfo>()
+                .Property(si => si.Phone)
+                .HasMaxLength(30);
+
+            modelBuilder.Entity<StudentInfo>()
+                .HasOne(si => si.Student)
+                .WithOne(s => s.ContactInfo)
+                .HasForeignKey<StudentInfo>(si => si.StudentId);
+
+            modelBuilder.Entity<Course>()
+                .HasOne(c => c.Lecturer)
+                .WithMany(t => t.Courses)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

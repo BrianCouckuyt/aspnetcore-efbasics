@@ -11,9 +11,10 @@ using System;
 namespace CoreCourse.EFBasics.Web.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    partial class SchoolContextModelSnapshot : ModelSnapshot
+    [Migration("20180521192848_AddStudentInfo")]
+    partial class AddStudentInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,7 +118,8 @@ namespace CoreCourse.EFBasics.Web.Migrations
                 {
                     b.HasOne("CoreCourse.EFBasics.Web.Entities.Teacher", "Lecturer")
                         .WithMany("Courses")
-                        .HasForeignKey("LecturerId");
+                        .HasForeignKey("LecturerId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CoreCourse.EFBasics.Web.Entities.StudentCourse", b =>

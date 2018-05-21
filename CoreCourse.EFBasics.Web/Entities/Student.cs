@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CoreCourse.EFBasics.Web.Entities
 {
-    public class Teacher
+    public class Student
     {
         [Key]
         public long Id { get; set; }
@@ -15,9 +15,13 @@ namespace CoreCourse.EFBasics.Web.Entities
         [MaxLength(150)]
         public string Name { get; set; }
 
-        public decimal? YearlyWage { get; set; }
+        public DateTime Birthdate { get; set; }
 
-        public ICollection<Course> Courses { get; set; }
+        public decimal? Scholarship { get; set; }
+
+        public ICollection<StudentCourse> StudentCourses { get; set; }
+
+        public StudentInfo ContactInfo { get; set; }
 
     }
 }
