@@ -11,5 +11,6 @@ namespace CoreCourse.EFBasics.Web.Entities
         public string Name { get; set; }
         public decimal YearlyWage { get; set; }
         public ICollection<Course> Courses { get; set; }
+
     }
 }
